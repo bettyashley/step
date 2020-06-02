@@ -27,6 +27,10 @@ function addRandomGreeting() {
   greetingContainer.innerText = greeting;
 }
 
+/**
+ * Changes background color
+ * @param {string} color 
+ */
 function changeBackgroundColor(color) {
     document.body.style.background = color;
 }
