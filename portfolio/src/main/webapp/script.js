@@ -34,3 +34,12 @@ function addRandomGreeting() {
 function changeBackgroundColor(color) {
     document.body.style.background = color;
 }
+
+/**
+ * Fetches 'Hello Betty!' message from the server and adds it to the DOM.
+ */
+async function getHelloMessage() {
+    const response = await fetch('/data');
+    const message = await response.text();
+    document.getElementById('message-container').innerText = message;
+}
