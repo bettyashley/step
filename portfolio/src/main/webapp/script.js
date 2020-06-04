@@ -36,10 +36,10 @@ function changeBackgroundColor(color) {
 }
 
 /**
- * Fetches 'Hello Betty!' message from the server and adds it to the DOM.
+ * Fetches a message from the server and adds it to the DOM.
  */
-async function getHelloMessage() {
+async function getGreetingMessage() {
     const response = await fetch('/data');
     const message = await response.text();
-    document.getElementById('message-container').innerText = message;
+    document.getElementById('message-container').textContent = message;
 }
