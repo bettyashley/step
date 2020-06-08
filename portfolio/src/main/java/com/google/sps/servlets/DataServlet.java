@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that returns three messages. */
+/** Servlet that returns messages. */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
     List<String> messages;
