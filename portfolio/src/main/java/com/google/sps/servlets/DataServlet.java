@@ -31,10 +31,11 @@ public class DataServlet extends HttpServlet {
     @Override
     public void init() {
         messages = new ArrayList<>();
-        messages.add("¡Hola Mundo!");
-        messages.add("你好，世界");
+        messages.add("Hola Mundo!");
+        messages.add("你好，世界!");
         messages.add("Bonjour le monde!");
     }
+
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json;");
