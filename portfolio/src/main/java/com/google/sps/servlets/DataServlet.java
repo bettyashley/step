@@ -24,7 +24,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /** Servlet that returns messages. */
-@WebServlet("/data")
+/*
+*@WebServlet("/data")
 public class DataServlet extends HttpServlet {
     List<String> messages;
     
@@ -43,4 +44,31 @@ public class DataServlet extends HttpServlet {
         String json = gson.toJson(messages);
         response.getWriter().println(json);
     }
+}
+**/
+
+/** Servlet that returns comments. */
+@WebServlet("/addcomment")
+public class DataServlet extends HttpServlet {
+    List<String> comments;
+    
+    @Override
+    public void init() {
+        comments = new ArrayList<>();
+    }
+
+    @Override
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("application/json;");
+        Gson gson = new Gson();
+        String json = gson.toJson(comments);
+        response.getWriter().println(json);
+    }
+
+    @Override
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String comment = request.getParameter("comment");
+        comments.add(comment);
+        response.sendRedirect("/");
+  }
 }
