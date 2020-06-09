@@ -80,7 +80,7 @@ async function getComments() {
     for (comment of json) {
         ulElement.appendChild(createListElement(comment));
     }
-    if (ulElement.textContent.trim() === '') {
+    if(json.length === 0) {
         ulElement.textContent = 'No comments yet.';
     }
 }
