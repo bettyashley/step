@@ -23,24 +23,28 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that returns messages. */
-@WebServlet("/data")
+/** Servlet that returns comments. */
+@WebServlet("/addcomment")
 public class DataServlet extends HttpServlet {
-    List<String> messages;
+    List<String> comments;
     
     @Override
     public void init() {
-        messages = new ArrayList<>();
-        messages.add("Hola mundo!");
-        messages.add("Hallo welt!");
-        messages.add("Bonjour le monde!");
+        comments = new ArrayList<>();
     }
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json;");
         Gson gson = new Gson();
-        String json = gson.toJson(messages);
+        String json = gson.toJson(comments);
         response.getWriter().println(json);
     }
+
+    @Override
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String comment = request.getParameter("comment");
+        comments.add(comment);
+        response.sendRedirect("/");
+  }
 }

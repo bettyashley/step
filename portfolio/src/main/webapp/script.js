@@ -68,3 +68,19 @@ function createListElement(text) {
   liElement.textContent = text;
   return liElement;
 }
+
+/**
+ * Fetches a list of comments from the server and adds it to the DOM.
+ */
+async function getComments() {
+    const response = await fetch('/addcomment');
+    const json = await response.json();
+
+    const ulElement = document.getElementById('comments-list');
+    for (comment of json) {
+        ulElement.appendChild(createListElement(comment));
+    }
+    if(json.length === 0) {
+        ulElement.textContent = 'No comments yet.';
+    }
+}
