@@ -73,7 +73,7 @@ function createListElement(text) {
  * Fetches a list of comments from the server and adds it to the DOM.
  */
 async function getComments() {
-    const response = await fetch('/addcomment');
+    const response = await fetch(`/listcomment?num=${document.getElementById('num').value}`);
     const json = await response.json();
 
     const ulElement = document.getElementById('comments-list');
@@ -83,4 +83,11 @@ async function getComments() {
     if(json.length === 0) {
         ulElement.textContent = 'No comments yet.';
     }
+}
+
+/**
+ * Sends a request to the servlet to delete all comments.
+ */
+function deleteComments() {
+    fetch('/deletecomment').then(res => getComments());
 }
