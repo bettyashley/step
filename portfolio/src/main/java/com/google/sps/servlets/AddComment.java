@@ -32,25 +32,7 @@ import javax.servlet.http.HttpServletResponse;
 /** Servlet that returns comments. */
 @WebServlet("/addcomment")
 public class AddComment extends HttpServlet {
-
-    @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
-        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        PreparedQuery results = datastore.prepare(query);
-
-        List<String> comments = new ArrayList<>();
-        for (Entity entity : results.asIterable()) {
-            String comment = (String) entity.getProperty("comment");
-            comments.add(comment);
-        }
-        
-        response.setContentType("application/json;");
-        Gson gson = new Gson();
-        String json = gson.toJson(comments);
-        response.getWriter().println(json);
-    }
-
+    
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String comment = request.getParameter("comment");
@@ -64,5 +46,5 @@ public class AddComment extends HttpServlet {
         datastore.put(commentEntity);
 
         response.sendRedirect("/");
-  }
+    }
 }
