@@ -14,6 +14,12 @@
 
 package com.google.sps.servlets;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,15 +32,19 @@ import javax.servlet.http.HttpServletResponse;
 /** Servlet that returns comments. */
 @WebServlet("/addcomment")
 public class DataServlet extends HttpServlet {
-    List<String> comments;
-    
-    @Override
-    public void init() {
-        comments = new ArrayList<>();
-    }
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        PreparedQuery results = datastore.prepare(query);
+
+        List<String> comments = new ArrayList<>();
+        for (Entity entity : results.asIterable()) {
+            String comment = (String) entity.getProperty("comment");
+            comments.add(comment);
+        }
+        
         response.setContentType("application/json;");
         Gson gson = new Gson();
         String json = gson.toJson(comments);
@@ -44,7 +54,15 @@ public class DataServlet extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String comment = request.getParameter("comment");
-        comments.add(comment);
+        long timestamp = System.currentTimeMillis();
+
+        Entity commentEntity = new Entity("Comment");
+        commentEntity.setProperty("comment", comment);
+        commentEntity.setProperty("timestamp", timestamp);
+
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        datastore.put(commentEntity);
+
         response.sendRedirect("/");
   }
 }
