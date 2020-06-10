@@ -18,7 +18,7 @@
       <br></br>
       <div id="comments-container">
           <label for="num">Display </label>
-          <input type="number" id="num" name="num" value="10" min="0" onchange="function()"> comments.
+          <input type="number" id="num" name="num" value="10" min="0" onchange="getComments()"> comments.
           <br></br>
           <form action="/addcomment" method="POST">
             <input type="text" name="comment" required>

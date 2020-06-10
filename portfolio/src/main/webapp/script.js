@@ -77,6 +77,7 @@ async function getComments() {
     const json = await response.json();
 
     const ulElement = document.getElementById('comments-list');
+    ulElement.textContent = '';
     for (comment of json) {
         ulElement.appendChild(createListElement(comment));
     }
