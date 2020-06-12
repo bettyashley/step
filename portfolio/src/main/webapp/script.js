@@ -90,5 +90,5 @@ async function getComments() {
  * Sends a request to the servlet to delete all comments.
  */
 function deleteComments() {
-    fetch('/deletecomment').then(res => getComments());
+    fetch('/deletecomment');
 }
