@@ -57,7 +57,7 @@ public class ListComment extends HttpServlet {
         String numCommentString = request.getParameter("num");
 
         int numComments = 10;
-        try{
+        try {
             numComments = Integer.parseInt(numCommentString);
         } catch(NumberFormatException e){
             System.err.println("This is not a number: " + numCommentString);
