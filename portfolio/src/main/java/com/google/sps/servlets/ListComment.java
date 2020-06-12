@@ -56,7 +56,7 @@ public class ListComment extends HttpServlet {
     private int getCommentCount(HttpServletRequest request){
         String numCommentString = request.getParameter("num");
 
-        int numComments = 10;
+        int numComments = -1;
         try {
             numComments = Integer.parseInt(numCommentString);
         } catch (NumberFormatException e) {
