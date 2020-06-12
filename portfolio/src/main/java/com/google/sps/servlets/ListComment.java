@@ -63,7 +63,7 @@ public class ListComment extends HttpServlet {
             System.err.println("This is not a number: " + numCommentString);
         }
 
-        if(numComments < 0){
+        if (numComments < 0) {
             System.err.println("This is out of range: " + numCommentString);
             numComments = 10;
         }
