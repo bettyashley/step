@@ -59,7 +59,7 @@ public class ListComment extends HttpServlet {
         int numComments = 10;
         try {
             numComments = Integer.parseInt(numCommentString);
-        } catch(NumberFormatException e){
+        } catch (NumberFormatException e) {
             System.err.println("This is not a number: " + numCommentString);
         }
 
