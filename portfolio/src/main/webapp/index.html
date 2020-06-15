@@ -9,34 +9,39 @@
     </head>
     <body onload="getComments(); getLogin();">
         <div id="content">
-            <h1>Betty's Portfolio</h1>
-            <p>This is my portfolio.</p>
-            <p>I am a rising junior at Hunter College. I am an NYC native and when I'm not in school or working, you can find me sleeping, painting, or playing Animal Crossing.</p>
-            <img src="images/espeon.gif"/>
-            <br>
-            <button onclick="changeBackgroundColor('lavender');">My favorite color</button>
-            <br>
-            <div id="comments-section">
-                <div id="login-info">
-                    <form action="/nickname" method="POST">
-                        <label for="nickname">You are currently signed in as: </label>
-                        <input type="text" name="nickname" id="nickname" size="10">
-                        <input type="submit" value="Change nickname" />
-                    </form>
-                </div>
-                <a id="login" href=""></a>
-                <div id="comments-form">
-                    <form action="/addcomment" method="POST">
-                        <input type="text" name="comment" required>
-                        <input type="submit" value="Post Comment"/>
-                    </form>
-                </div>
-                <div id="comments-container">
-                    <button onclick="deleteComments()">Delete all comments.</button>
-                    <label for="num">Display </label>
-                    <input type="number" id="num" name="num" value="10" min="0" onchange="getComments()"> comments.
-                    <br>
-                    <ul id="comments-list"></ul>
+            <div id="header-image">
+                <img src="images/cherryblossoms.gif"/>
+            </div>
+            <div id="content-main">
+                <h1>Betty's Portfolio</h1>
+                <p>This is my portfolio.</p>
+                <p>I'm currently a rising junior at Hunter College. I'm an NYC native and when I'm not in school or working, you can find me sleeping, painting, or playing Animal Crossing.</p>
+                <img src="images/espeon.gif" class="center"/>
+                <br>
+                <button onclick="changeBackgroundColor('lavender');" class="my-button">My favorite color</button>
+                <br>
+                <div id="comments-section" class="center">
+                    <div id="login-info">
+                        <form action="/nickname" method="POST">
+                            <label for="nickname">You are currently signed in as: </label>
+                            <input type="text" name="nickname" id="nickname" size="10">
+                            <input type="submit" value="Change nickname" />
+                        </form>
+                    </div>
+                    <a id="login" href=""></a>
+                    <div id="comments-form">
+                        <form action="/addcomment" method="POST">
+                            <input type="text" name="comment" required>
+                            <input type="submit" value="Post Comment"/>
+                        </form>
+                    </div>
+                    <div id="comments-container">
+                        <button onclick="deleteComments()" class="my-button">Delete all comments.</button>
+                        <label for="num">Display </label>
+                        <input type="number" id="num" name="num" value="10" min="0" onchange="getComments()"> comments.
+                        <br>
+                        <ul id="comments-list"></ul>
+                    </div>
                 </div>
             </div>
         </div>
