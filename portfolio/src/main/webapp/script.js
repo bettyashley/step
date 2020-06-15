@@ -93,13 +93,15 @@ function deleteComments() {
     fetch('/deletecomment');
 }
 
+let loginEl, addCommentsEl, nicknameEl;
+
 /** 
  * Initializes all the variables needed for updateComments().
  */
 function getLogin() {
-    let loginEl = document.getElementById("login");
-    let addCommentsEl = document.getElementById("comments-form");
-    let nicknameContainerEl = document.getElementById("login-info");
+    loginEl = document.getElementById("login");
+    addCommentsEl = document.getElementById("comments-form");
+    nicknameEl = document.getElementById("login-info");
     updateComments();
 }
 
@@ -109,7 +111,7 @@ function getLogin() {
 function updateComments() {
     fetch('/login').then(res => res.json()).then(json => {
         addCommentsEl.hidden = !json.loggedIn;
-        nicknameContainerEl.hidden = !json.loggedIn;
+        nicknameEl.hidden = !json.loggedIn;
         updateLogin(json.displayText, json.url);
         if (json.loggedIn) {
             document.getElementById("nickname").value = json.nickname;
