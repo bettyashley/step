@@ -20,6 +20,8 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -39,6 +41,7 @@ public class AddComment extends HttpServlet {
         long timestamp = System.currentTimeMillis();
 
         Entity commentEntity = new Entity("Comment");
+        commentEntity.setProperty("id", getId());
         commentEntity.setProperty("comment", comment);
         commentEntity.setProperty("timestamp", timestamp);
 
@@ -47,4 +50,8 @@ public class AddComment extends HttpServlet {
 
         response.sendRedirect("/");
     }
+    private String getId(){
+        UserService userService = UserServiceFactory.getUserService();
+        return userService.getCurrentUser().getUserId();
+  }
 }
