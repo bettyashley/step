@@ -44,7 +44,9 @@ public class ListComment extends HttpServlet {
         for (Entity entity : results.asIterable()) {
             if (comments.size() == commentCount) break;
             String comment = (String) entity.getProperty("comment");
-            comments.add(comment);
+            String id = (String) entity.getProperty("id");
+            String nickname = getUserNickname(id);
+            comments.add(nickname + ": " + comment);
         }
         
         response.setContentType("application/json;");
@@ -68,5 +70,17 @@ public class ListComment extends HttpServlet {
             numComments = 10;
         }
         return numComments;
+    }
+
+    private String getUserNickname(String id) {
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        Query query = new Query("UserInfo").setFilter(new Query.FilterPredicate("id", Query.FilterOperator.EQUAL, id));
+        PreparedQuery results = datastore.prepare(query);
+        Entity entity = results.asSingleEntity();
+        if (entity == null) {
+            return "Anonymous";
+        }
+        String nickname = (String) entity.getProperty("nickname");
+        return nickname;
     }
 }
