@@ -92,3 +92,37 @@ async function getComments() {
 function deleteComments() {
     fetch('/deletecomment');
 }
+
+/** 
+ * Initializes all the variables needed for updateComments().
+ */
+function getLogin() {
+    let loginEl = document.getElementById("login");
+    let addCommentsEl = document.getElementById("comments-container");
+    let nicknameContainerEl = document.getElementById("login-info");
+    updateComments();
+}
+
+/** 
+ * Fetches login status from the server.
+ */
+function updateComments() {
+    fetch('/login').then(res => res.json()).then(json => {
+        addCommentsEl.hidden = !json.loggedIn;
+        nicknameContainerEl.hidden = !json.loggedIn;
+        updateLogin(json.displayText, json.url);
+        if (json.loggedIn) {
+            document.getElementById("nickname").value = json.nickname;
+        }
+    });
+}
+
+/** 
+ * Updates the login element.
+ * @param {string} text
+ * @param {href} href
+ */
+function updateLogin(text, href){
+    loginEl.textContent = text;
+    loginEl.href = href;
+}
