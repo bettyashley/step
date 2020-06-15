@@ -42,8 +42,8 @@ public class Login extends HttpServlet {
     UserService userService = UserServiceFactory.getUserService();
     
     if (userService.isUserLoggedIn()) {
-        String userEmail = userService.getCurrentUser().getEmail();
-        String nickname = getUserNickname(userEmail);
+        String id = userService.getCurrentUser().getUserId();
+        String nickname = getUserNickname(id);
         String logoutUrl = userService.createLogoutURL(urlToRedirectTo);
 
         String json = generateLogoutJson(logoutUrl, nickname);

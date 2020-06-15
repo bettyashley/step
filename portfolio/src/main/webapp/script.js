@@ -98,7 +98,7 @@ function deleteComments() {
  */
 function getLogin() {
     let loginEl = document.getElementById("login");
-    let addCommentsEl = document.getElementById("comments-container");
+    let addCommentsEl = document.getElementById("comments-form");
     let nicknameContainerEl = document.getElementById("login-info");
     updateComments();
 }
