@@ -60,14 +60,14 @@ public class Login extends HttpServlet {
     * Tells user to login.
     */
     private String generateLoginJson(String loginUrl){
-        return generateJson(loginUrl, "", "false", "Please log in before commenting.");
+        return generateJson(loginUrl, "", "false"/*status*/, "Please log in before commenting."/*displayText*/);
     }
 
     /** 
     * Allows user to logout.
     */
     private String generateLogoutJson(String logoutUrl, String nickname){
-        return generateJson(logoutUrl, nickname, "true", "Log out.");
+        return generateJson(logoutUrl, nickname, "true"/*status*/, "Log out."/*displayText*/);
     }
 
     /** 
