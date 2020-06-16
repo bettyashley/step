@@ -90,7 +90,7 @@ async function getComments() {
  * Sends a request to the servlet to delete all comments.
  */
 function deleteComments() {
-    fetch('/deletecomment');
+    fetch('/deletecomment').then(displayComments());
 }
 
 let loginEl, addCommentsEl, nicknameEl;
