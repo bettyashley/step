@@ -13,6 +13,11 @@
 // limitations under the License.
 
 /**
+ * Global variables
+ */
+let loginEl, addCommentsEl, nicknameEl;
+
+/**
  * Adds a random greeting to the page.
  */
 function addRandomGreeting() {
@@ -92,8 +97,6 @@ async function getComments() {
 function deleteComments() {
     fetch('/deletecomment').then(getComments());
 }
-
-let loginEl, addCommentsEl, nicknameEl;
 
 /** 
  * Initializes all the variables needed for updateComments().
