@@ -20,6 +20,8 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,49 +31,56 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that returns comments. */
-@WebServlet("/listcomment")
-public class ListComment extends HttpServlet {
-
+/** Servlet that returns the login status of the user. */
+@WebServlet("/login")
+public class Login extends HttpServlet {
+    
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        int commentCount = getCommentCount(request);
-        Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
-        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        PreparedQuery results = datastore.prepare(query);
-
-        List<String> comments = new ArrayList<>();
-        for (Entity entity : results.asIterable()) {
-            if (comments.size() == commentCount) break;
-            String comment = (String) entity.getProperty("comment");
-            String id = (String) entity.getProperty("id");
-            String nickname = getUserNickname(id);
-            comments.add(nickname + ": " + comment);
-        }
+        response.setContentType("application/json");
+        String urlToRedirectTo = "/";
+        UserService userService = UserServiceFactory.getUserService();
         
-        response.setContentType("application/json;");
-        Gson gson = new Gson();
-        String json = gson.toJson(comments);
+        if (userService.isUserLoggedIn()) {
+            String id = userService.getCurrentUser().getUserId();
+            String nickname = getUserNickname(id);
+            String logoutUrl = userService.createLogoutURL(urlToRedirectTo);
+
+            String json = generateLogoutJson(logoutUrl, nickname);
+
+            response.getWriter().println(json);
+            return;
+        } 
+        String loginUrl = userService.createLoginURL(urlToRedirectTo);
+        String json = generateLoginJson(loginUrl);
         response.getWriter().println(json);
     }
 
-    private int getCommentCount(HttpServletRequest request){
-        String numCommentString = request.getParameter("num");
-
-        int numComments = -1;
-        try {
-            numComments = Integer.parseInt(numCommentString);
-        } catch (NumberFormatException e) {
-            System.err.println("This is not a number: " + numCommentString);
-        }
-
-        if (numComments < 0) {
-            System.err.println("This is out of range: " + numCommentString);
-            numComments = 10;
-        }
-        return numComments;
+    /** 
+    * Tells user to login.
+    */
+    private String generateLoginJson(String loginUrl){
+        return generateJson(loginUrl, "", "false"/*status*/, "Please log in before commenting."/*displayText*/);
     }
 
+    /** 
+    * Allows user to logout.
+    */
+    private String generateLogoutJson(String logoutUrl, String nickname){
+        return generateJson(logoutUrl, nickname, "true"/*status*/, "Log out."/*displayText*/);
+    }
+
+    /** 
+    * Determines user's login status to know which Json to show.
+    */
+    private String generateJson(String url, String nickname, String status, String displayText) {
+        return "{\"url\": \"" + url + "\", \"loggedIn\":" + status + ",\"nickname\":\"" + 
+        nickname + "\", \"displayText\": \"" + displayText + "\"}";
+    }
+
+    /** 
+    * Gets the user's nickname.
+    */
     private String getUserNickname(String id) {
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         Query query = new Query("UserInfo").setFilter(new Query.FilterPredicate("id", Query.FilterOperator.EQUAL, id));

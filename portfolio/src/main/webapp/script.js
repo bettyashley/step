@@ -13,6 +13,11 @@
 // limitations under the License.
 
 /**
+ * Global variables
+ */
+let loginEl, addCommentsEl, nicknameEl;
+
+/**
  * Adds a random greeting to the page.
  */
 function addRandomGreeting() {
@@ -90,5 +95,39 @@ async function getComments() {
  * Sends a request to the servlet to delete all comments.
  */
 function deleteComments() {
-    fetch('/deletecomment');
+    fetch('/deletecomment').then(getComments());
+}
+
+/** 
+ * Initializes all the variables needed for updateComments().
+ */
+function getLogin() {
+    loginEl = document.getElementById("login");
+    addCommentsEl = document.getElementById("comments-form");
+    nicknameEl = document.getElementById("login-info");
+    updateComments();
+}
+
+/** 
+ * Fetches login status from the server.
+ */
+function updateComments() {
+    fetch('/login').then(res => res.json()).then(json => {
+        addCommentsEl.hidden = !json.loggedIn;
+        nicknameEl.hidden = !json.loggedIn;
+        updateLogin(json.displayText, json.url);
+        if (json.loggedIn) {
+            document.getElementById("nickname").value = json.nickname;
+        }
+    });
+}
+
+/** 
+ * Updates the login element.
+ * @param {string} text
+ * @param {href} href
+ */
+function updateLogin(text, href){
+    loginEl.textContent = text;
+    loginEl.href = href;
 }

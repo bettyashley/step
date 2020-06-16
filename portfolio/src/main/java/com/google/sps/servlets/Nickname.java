@@ -24,6 +24,7 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.annotation.WebServlet;
@@ -31,27 +32,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that returns comments. */
-@WebServlet("/addcomment")
-public class AddComment extends HttpServlet {
+/** Servlet that changes the user's nickname. */
+@WebServlet("/nickname")
+public class Nickname extends HttpServlet {
     
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String comment = request.getParameter("comment");
-        long timestamp = System.currentTimeMillis();
-
-        Entity commentEntity = new Entity("Comment");
-        commentEntity.setProperty("id", getId());
-        commentEntity.setProperty("comment", comment);
-        commentEntity.setProperty("timestamp", timestamp);
+        String nickname = request.getParameter("nickname");
+        UserService userService = UserServiceFactory.getUserService();
+        String id = userService.getCurrentUser().getUserId();
 
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        datastore.put(commentEntity);
+        Entity entity = new Entity("UserInfo", id);
+        entity.setProperty("id", id);
+        entity.setProperty("nickname", nickname);
+        datastore.put(entity);
 
         response.sendRedirect("/");
-    }
-    private String getId(){
-        UserService userService = UserServiceFactory.getUserService();
-        return userService.getCurrentUser().getUserId();
     }
 }
