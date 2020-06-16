@@ -53,5 +53,5 @@ public class AddComment extends HttpServlet {
     private String getId(){
         UserService userService = UserServiceFactory.getUserService();
         return userService.getCurrentUser().getUserId();
-  }
+    }
 }
