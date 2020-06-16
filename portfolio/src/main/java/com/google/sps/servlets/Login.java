@@ -34,41 +34,53 @@ import javax.servlet.http.HttpServletResponse;
 /** Servlet that returns the login status of the user. */
 @WebServlet("/login")
 public class Login extends HttpServlet {
-
-  @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.setContentType("application/json");
-    String urlToRedirectTo = "/";
-    UserService userService = UserServiceFactory.getUserService();
     
-    if (userService.isUserLoggedIn()) {
-        String id = userService.getCurrentUser().getUserId();
-        String nickname = getUserNickname(id);
-        String logoutUrl = userService.createLogoutURL(urlToRedirectTo);
+    @Override
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("application/json");
+        String urlToRedirectTo = "/";
+        UserService userService = UserServiceFactory.getUserService();
+        
+        if (userService.isUserLoggedIn()) {
+            String id = userService.getCurrentUser().getUserId();
+            String nickname = getUserNickname(id);
+            String logoutUrl = userService.createLogoutURL(urlToRedirectTo);
 
-        String json = generateLogoutJson(logoutUrl, nickname);
+            String json = generateLogoutJson(logoutUrl, nickname);
 
+            response.getWriter().println(json);
+            return;
+        } 
+        String loginUrl = userService.createLoginURL(urlToRedirectTo);
+        String json = generateLoginJson(loginUrl);
         response.getWriter().println(json);
-        return;
-    } 
-    String loginUrl = userService.createLoginURL(urlToRedirectTo);
-    String json = generateLoginJson(loginUrl);
-    response.getWriter().println(json);
     }
 
+    /** 
+    * Tells user to login.
+    */
     private String generateLoginJson(String loginUrl){
         return generateJson(loginUrl, "", "false", "Please log in before commenting.");
     }
 
+    /** 
+    * Allows user to logout.
+    */
     private String generateLogoutJson(String logoutUrl, String nickname){
         return generateJson(logoutUrl, nickname, "true", "Log out.");
     }
 
+    /** 
+    * Determines user's login status to know which Json to show.
+    */
     private String generateJson(String url, String nickname, String status, String displayText) {
         return "{\"url\": \"" + url + "\", \"loggedIn\":" + status + ",\"nickname\":\"" + 
         nickname + "\", \"displayText\": \"" + displayText + "\"}";
     }
 
+    /** 
+    * Gets the user's nickname.
+    */
     private String getUserNickname(String id) {
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         Query query =new Query("UserInfo").setFilter(new Query.FilterPredicate("id", Query.FilterOperator.EQUAL, id));
