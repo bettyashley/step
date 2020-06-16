@@ -15,6 +15,11 @@
     padding: 10px 10px 10px 10px;
 }
 
+#content-main img{
+    width: 80%;
+    height: auto;
+}
+
 .center {
     display: block;
     margin-left: auto;
@@ -29,6 +34,7 @@
     background-color: lavenderblush;
     color: black; 
     border: 2px solid black;
+    padding: 10px;
 }
 
 #greeting-container {
