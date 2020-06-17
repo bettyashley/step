@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <title>Betty's Portfolio</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <title>Betty's Portfolio</title>
         <link rel="stylesheet" href="style.css">
+        <script src="https://www.gstatic.com/charts/loader.js"></script>
         <script src="script.js"></script>
     </head>
     <body onload="getComments(); getLogin();">
@@ -20,7 +21,9 @@
                 <br>
                 <button onclick="changeBackgroundColor('lavender');" class="my-button">My favorite color</button>
                 <br>
-                <div id="comments-section" class="center">
+                <div id="chart-container"></div>
+                <br>
+                <div id="comments-section">
                     <div id="login-info"hidden>
                         <form action="/nickname" method="POST">
                             <label for="nickname">You are currently signed in as: </label>

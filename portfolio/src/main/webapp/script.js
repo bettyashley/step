@@ -12,6 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
 /**
  * Global variables
  */
@@ -130,4 +133,26 @@ function updateComments() {
 function updateLogin(text, href){
     loginEl.textContent = text;
     loginEl.href = href;
+}
+
+/** Creates a chart and adds it to the page. */
+function drawChart() {
+  const data = new google.visualization.DataTable();
+  data.addColumn('string', 'Drink');
+  data.addColumn('number', 'Count');
+        data.addRows([
+          ['Iced Caramel Macchiato', 2],
+          ['Iced Black Tea', 10],
+          ['Mango Dragon Fruit Refresher', 8]
+        ]);
+
+  const options = {
+    'title': 'Starbuck Drinks I Ordered in 2020',
+    'width':500,
+    'height':400
+  };
+
+  const chart = new google.visualization.PieChart(
+      document.getElementById('chart-container'));
+  chart.draw(data, options);
 }
