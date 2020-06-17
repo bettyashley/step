@@ -21,7 +21,20 @@
                 <br>
                 <button onclick="changeBackgroundColor('lavender');" class="my-button">My favorite color</button>
                 <br>
+                <h1>Favorite Pastel Colors</h1>
                 <div id="chart-container"></div>
+                <h2>Vote</h2>
+                <form action="/colordata" method="POST">
+                    <select name="color">
+                        <option value="Pink">Pink</option>
+                        <option value="PeachPuff">Coral</option>
+                        <option value="LightYellow">Yellow</option>
+                        <option value="Aquamarine">Mint</option>
+                        <option value="LightCyan">Blue</option>
+                        <option value="Lavender">Lavender</option>
+                    </select>
+                    <button>Submit</button>
+                </form>
                 <br>
                 <div id="comments-section">
                     <div id="login-info"hidden>
