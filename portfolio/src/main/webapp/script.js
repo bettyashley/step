@@ -135,24 +135,28 @@ function updateLogin(text, href){
     loginEl.href = href;
 }
 
-/** Creates a chart and adds it to the page. */
+/** 
+ * Fetches color data and uses it to create a chart.
+ */
 function drawChart() {
-  const data = new google.visualization.DataTable();
-  data.addColumn('string', 'Drink');
-  data.addColumn('number', 'Count');
-        data.addRows([
-          ['Iced Caramel Macchiato', 2],
-          ['Iced Black Tea', 10],
-          ['Mango Dragon Fruit Refresher', 8]
-        ]);
-
-  const options = {
-    'title': 'Starbuck Drinks I Ordered in 2020',
-    'width':500,
-    'height':400
-  };
-
-  const chart = new google.visualization.PieChart(
-      document.getElementById('chart-container'));
-  chart.draw(data, options);
+    fetch('/colordata').then(response => response.json()).then((colorVotes) => {
+        const data = new google.visualization.DataTable();
+        data.addColumn('string', 'Color');
+        data.addColumn('number', 'Votes');
+        Object.keys(colorVotes).forEach((color) => {
+            data.addRow([color, colorVotes[color]]);
+        });
+        
+        const options = {
+            'title': 'Favorite Pastel Colors',
+            'width':600,
+            'height':500,
+            'colors': ['Pink', 'PeachPuff', 'LightYellow', 'Aquamarine', 'LightCyan', 'Lavender']
+        };
+        
+        const chart = new google.visualization.PieChart(
+            document.getElementById('chart-container'));
+            chart.draw(data, options);
+        }
+    );
 }
