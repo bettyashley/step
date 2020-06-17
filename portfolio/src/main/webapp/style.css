@@ -37,6 +37,17 @@
     padding: 10px;
 }
 
+.my-link {
+    display: inline;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 16px;
+    background-color: lavenderblush;
+    color: black; 
+    border: 2px solid black;
+    padding: 10px;
+}
+
 #greeting-container {
     margin-top: 20px;
 }
