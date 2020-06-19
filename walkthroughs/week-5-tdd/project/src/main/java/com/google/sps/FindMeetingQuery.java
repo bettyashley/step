@@ -76,8 +76,9 @@ public final class FindMeetingQuery {
     }
 
   /**
-   * Returns whether any elements in the second set, {@code people} are in the first set,
-   * {@code attendees}, ie. the two collections overlap/share elements
+   * Returns whether any elements in
+   * {@code people} and {@code attendees}
+   * overlap/share elements
    */
   private boolean containsAttendees(Collection<String> attendees, Collection<String> people) {
     Iterator<String> itr = people.iterator();
